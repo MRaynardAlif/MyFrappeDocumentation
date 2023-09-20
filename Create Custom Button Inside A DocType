@@ -1,3 +1,34 @@
-1. First, Create new Client Script
+1. First, Create new Client Script, for example, i already created a custom button inside the Employees DocType so they can instantly create a Work Order and Sales Order Document
+   Here is the Code :
+
+   frappe.ui.form.on('Employees', {
+	refresh(frm) {
+		cur_frm.cscript.add_workorder = function() {
+		    frappe.new_doc('Work Order', {
+		        required_by: frappe.datetime.nowdate()
+		    }).insert().then(function(doc) {
+		        frappe.set_route('Form', 'Work Order', doc.name);
+		    });
+		};
+		
+		cur_frm.cscript.add_salesorder = function() {
+		    frappe.new_doc('Sales Order', {
+		        Customer : cur_frm.doc.name,
+		        required_by: frappe.datetime.nowdate()
+		    }).insert().then(function(doc) {
+		        frappe.set_route('Form', 'Sales Order', doc.name);
+		    });
+		};
+		
+		frm.page.add_inner_button(
+		    'Work Order', function() {cur_frm.cscript.add_workorder();}
+		    ,'Create');
+		    
+		frm.page.add_inner_button(
+		    'Sales Order', function() {cur_frm.cscript.add_salesorder();}
+		    ,'Create');
+		
+	}
+})
 
    
