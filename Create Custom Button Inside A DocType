@@ -3,6 +3,7 @@
 
    frappe.ui.form.on('Employees', {
 	refresh(frm) {
+		//Create new function for the button//
 		cur_frm.cscript.add_workorder = function() {
 		    frappe.new_doc('Work Order', {
 		        required_by: frappe.datetime.nowdate()
@@ -10,7 +11,7 @@
 		        frappe.set_route('Form', 'Work Order', doc.name);
 		    });
 		};
-		
+		//Same here//
 		cur_frm.cscript.add_salesorder = function() {
 		    frappe.new_doc('Sales Order', {
 		        Customer : cur_frm.doc.name,
@@ -19,7 +20,8 @@
 		        frappe.set_route('Form', 'Sales Order', doc.name);
 		    });
 		};
-		
+
+		//Then, create the custom inner button group with label 'Create', input the Label and created function for the button//
 		frm.page.add_inner_button(
 		    'Work Order', function() {cur_frm.cscript.add_workorder();}
 		    ,'Create');
